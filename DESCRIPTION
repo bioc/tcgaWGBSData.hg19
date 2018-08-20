@@ -1,0 +1,17 @@
+Package: tcgaWGBSData.hg19
+Type: Package
+Title: Data
+Version: 0.01
+Author: Divy Kangeyan <divyswar01@g.harvard.edu>
+Maintainer: Divy Kangeyan <divyswar01@g.harvard.edu>
+Depends: R (>= 3.5.0)
+Imports:
+        bsseq
+Suggests:
+  BSgenome.Mmusculus.UCSC.mm10
+Description: Data package for WGBS Data in TCGA
+biocViews: DNAMethylation, WGBS, TCGA
+License: GPL-2
+LazyData: TRUE
+RoxygenNote: 6.0.1
+VignetteBuilder: knitr
