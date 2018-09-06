@@ -9,7 +9,7 @@ meta <- data.frame(
   BiocVersion = "3.8",
   Genome = "hg19", 
   SourceType = "BAM", 
-  SourceVersion = "Jan 28 2015",
+  SourceVersion = "Aug 28 2014",
   Species = "Homo sapiens",
   TaxonomyId = 9606,
   Coordinate_1_based = TRUE,
