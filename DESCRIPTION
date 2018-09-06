@@ -10,7 +10,7 @@ Imports:
 Suggests:
   BSgenome.Mmusculus.UCSC.mm10
 Description: Data package for WGBS Data in TCGA
-biocViews: DNAMethylation, WGBS, TCGA
+biocViews: ExperimentData, Homo_sapiens_Data, CancerData, DNAMethylationData, WGBSData, TCGA
 License: GPL-2
 LazyData: TRUE
 RoxygenNote: 6.0.1
