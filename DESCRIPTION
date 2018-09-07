@@ -4,7 +4,8 @@ Title: Data
 Version: 0.01
 Author: Divy Kangeyan <divyswar01@g.harvard.edu>
 Maintainer: Divy Kangeyan <divyswar01@g.harvard.edu>
-Depends: R (>= 3.5.0)
+Depends: R (>= 3.5.0),
+         ExperimentHub
 Imports:
         bsseq
 Suggests:
