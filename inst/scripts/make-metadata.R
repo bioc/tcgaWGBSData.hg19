@@ -9,6 +9,7 @@ meta <- data.frame(
   BiocVersion = "3.8",
   Genome = "hg19", 
   SourceType = "BAM", 
+  SourceUrl = "https://portal.gdc.cancer.gov/legacy-archive/search/f",
   SourceVersion = "Aug 28 2014",
   Species = "Homo sapiens",
   TaxonomyId = 9606,
