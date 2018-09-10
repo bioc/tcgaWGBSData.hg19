@@ -18,7 +18,8 @@ query(eh, "tcgaWGBSData.hg19")
 
 Data can be extracted using
 ```{r, eval=FALSE}
-
+tcga_data <- eh[["EH1661"]]
+TCGA_bs <- eh[["EH1662"]]
 ```
 
 

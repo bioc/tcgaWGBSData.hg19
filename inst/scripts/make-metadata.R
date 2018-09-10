@@ -4,7 +4,7 @@
 ###
 
 meta <- data.frame(
-  Title = 'Whole Genome Bisulfit Sequencing Data for 47 samples',
+  Title = c('Whole Genome Bisulfit Sequencing Data for 47 samples - assays object','Whole Genome Bisulfit Sequencing Data for 47 samples - bsseq object'),
   Description = "TCGA WGBS data in coverage and methylation matrix format for 39 tumor and 8 normal samples",
   BiocVersion = "3.8",
   Genome = "hg19", 
@@ -16,7 +16,7 @@ meta <- data.frame(
   Coordinate_1_based = TRUE,
   DataProvider = "NCI_GDC",
   Maintainer = "Divy Kangeyan <divyswar01@g.harvard.edu>",
-  RDataClass = "SummarizedExperiment" ,
+  RDataClass = c("character","BSseq") ,
   DispatchClass = c("H5File", "RDS"),
   RDataPath = c("tcgaWGBSData.hg19/assays.h5", "tcgaWGBSData.hg19/se.rds"),
   Tags = ""
