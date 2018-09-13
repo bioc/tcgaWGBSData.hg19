@@ -7,10 +7,11 @@ Maintainer: Divy Kangeyan <divyswar01@g.harvard.edu>
 Depends: R (>= 3.5.0),
          ExperimentHub
 Imports:
-        bsseq
+        bsseq,
+        knitr
 Suggests:
-  BSgenome.Mmusculus.UCSC.mm10
-Description: Data package for WGBS Data in TCGA
+Description: Data package for WGBS Data in TCGA.
+             Data is stored as SummarizedExperiment Format. See vignette how to extract the data.
 biocViews: ExperimentData, Homo_sapiens_Data, CancerData, DNAMethylationData, WGBSData, TCGA
 License: GPL-2
 LazyData: TRUE

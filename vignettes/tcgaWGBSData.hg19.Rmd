@@ -10,14 +10,14 @@ vignette: >
 ---
 
 Differential Methylation Analysis with Whole Genome Bisulfite Sequencing (WGBS) Data in TCGA
-```{r, eval=FALSE}
+```{r, warning=FALSE, message=FALSE, eval=FALSE}
 library(ExperimentHub)
 eh = ExperimentHub()
 query(eh, "tcgaWGBSData.hg19")
 ```
 
 Data can be extracted using
-```{r, eval=FALSE}
+```{r, warning=FALSE, message=FALSE, cache=TRUE, eval=FALSE}
 tcga_data <- eh[["EH1661"]]
 TCGA_bs <- eh[["EH1662"]]
 file.rename(from=tcga_data,to=paste0(dirname(tcga_data),'/assays.h5'))
@@ -25,15 +25,16 @@ file.rename(from=tcga_data,to=paste0(dirname(tcga_data),'/assays.h5'))
 
 
 Phenotypic data can be extracted by
-```{r, eval=FALSE}
-phenoData <- pData(TCGA_bs)
+```{r, warning=FALSE, message=FALSE, eval=FALSE}
+library(Biobase)
+phenoData <- Biobase::pData(TCGA_bs)
 ```
 
 
 Methylation Comparison between normal and tumor sample
-```{r, eval=FALSE}
-cov_matrix <- getCoverage(TCGA_bs)
-meth_matrix <- getCoverage(TCGA_bs, type='M')
+```{r, warning=FALSE, message=FALSE, eval=FALSE}
+cov_matrix <- bsseq::getCoverage(TCGA_bs)
+meth_matrix <- bsseq::getCoverage(TCGA_bs, type='M')
 meth_matrix <- meth_matrix/cov_matrix
 
 # Get total CpG coverage
@@ -54,7 +55,7 @@ g
 
 
 Differential methylation analysis of tumor samples
-```{r, eval=FALSE}
+```{r, warning=FALSE, message=FALSE, eval=FALSE}
 chr1Index <- seqnames(TCGA_bs) == 'chr22'
 
 group1 <- c(11, 6, 23) # normal samples
@@ -62,8 +63,8 @@ group2 <- c(20, 26, 25) # Tumor samples
 subSample <- c(group1, group2)
 
 TCGA_bs_sub <- updateObject(TCGA_bs[chr1Index,subSample])
-TCGA_bs_sub.fit <- BSmooth(TCGA_bs_sub, mc.cores = 2, verbose = TRUE)
-TCGA_bs_sub.tstat <- BSmooth.tstat(TCGA_bs_sub.fit, 
+TCGA_bs_sub.fit <- bsseq::BSmooth(TCGA_bs_sub, mc.cores = 2, verbose = TRUE)
+TCGA_bs_sub.tstat <- bsseq::BSmooth.tstat(TCGA_bs_sub.fit, 
                                group1 = c(1,2,3),
                                group2 = c(4,5,6), 
                                estimate.var = "group2",
@@ -72,7 +73,7 @@ TCGA_bs_sub.tstat <- BSmooth.tstat(TCGA_bs_sub.fit,
 plot(TCGA_bs_sub.tstat)
 
 
-dmrs0 <- dmrFinder(TCGA_bs_sub.tstat, cutoff = c(-4.6, 4.6))
+dmrs0 <- bsseq::dmrFinder(TCGA_bs_sub.tstat, cutoff = c(-4.6, 4.6))
 dmrs <- subset(dmrs0, n >= 3 & abs(meanDiff) >= 0.1)
 nrow(dmrs)
 head(dmrs, n = 3)
@@ -84,6 +85,9 @@ pData(TCGA_bs_sub.fit) <- pData
 
 plotRegion(TCGA_bs_sub.fit, dmrs[1,], extend = 5000, addRegions = dmrs)
 
+```
+```{r, warning=FALSE, message=FALSE}
+sessionInfo()
 ```
 
 
