@@ -1,1 +1,3 @@
 import(ExperimentHub)
+import(bsseq)
+import(knitr)

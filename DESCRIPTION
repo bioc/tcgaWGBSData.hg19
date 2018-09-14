@@ -1,18 +1,20 @@
 Package: tcgaWGBSData.hg19
 Type: Package
 Title: Data
-Version: 0.01
+Version: 0.99.1
 Author: Divy Kangeyan <divyswar01@g.harvard.edu>
 Maintainer: Divy Kangeyan <divyswar01@g.harvard.edu>
-Depends: R (>= 3.5.0),
+Depends: R (>= 3.6.0),
          ExperimentHub
 Imports:
         bsseq,
         knitr
 Suggests:
 Description: Data package for WGBS Data in TCGA.
-             Data is stored as SummarizedExperiment Format. See vignette how to extract the data.
-biocViews: ExperimentData, Homo_sapiens_Data, CancerData, DNAMethylationData, WGBSData, TCGA
+             Data is stored as SummarizedExperiment Format. 
+             See vignette how to extract the data.
+biocViews: Genome, SequencingData, ExperimentData, Homo_sapiens_Data, 
+           CancerData
 License: GPL-2
 LazyData: TRUE
 RoxygenNote: 6.0.1

@@ -9,7 +9,8 @@ vignette: >
     %\VignetteEncoding{UTF-8}
 ---
 
-Differential Methylation Analysis with Whole Genome Bisulfite Sequencing (WGBS) Data in TCGA
+Differential Methylation Analysis with Whole Genome Bisulfite Sequencing 
+(WGBS) Data in TCGA
 ```{r, warning=FALSE, message=FALSE, eval=FALSE}
 library(ExperimentHub)
 eh = ExperimentHub()
@@ -44,9 +45,11 @@ totCov <- colSums(cov_matrix>0)
 meth_matrix[cov_matrix<10] <- NA 
 
 meanMethylation <- DelayedArray::colMeans(meth_matrix, na.rm=TRUE)
-Df <- data.frame('mean-methylation' = meanMethylation, 'type' = phenoData$sample.type)
+sampleType <- phenoData$sample.type
+Df <- data.frame('mean-methylation' = meanMethylation, 'type' = sampleType)
 
-g <- ggplot2::ggplot() + ggplot2::geom_boxplot(data=Df,ggplot2::aes(x=type,y=mean.methylation))
+g <- ggplot2::ggplot() 
+g <- g + ggplot2::geom_boxplot(data=Df,ggplot2::aes(x=type,y=mean.methylation))
 g <- g + ggplot2::xlab('sample type') + ggplot2::ylab('Methylation') 
 g <- g + ggplot2::theme(axis.text.x = element_text(angle = 0, hjust = 1))
 g
@@ -65,11 +68,11 @@ subSample <- c(group1, group2)
 TCGA_bs_sub <- updateObject(TCGA_bs[chr1Index,subSample])
 TCGA_bs_sub.fit <- bsseq::BSmooth(TCGA_bs_sub, mc.cores = 2, verbose = TRUE)
 TCGA_bs_sub.tstat <- bsseq::BSmooth.tstat(TCGA_bs_sub.fit, 
-                               group1 = c(1,2,3),
-                               group2 = c(4,5,6), 
-                               estimate.var = "group2",
-                               local.correct = TRUE,
-                               verbose = TRUE)
+                                group1 = c(1,2,3),
+                                group2 = c(4,5,6), 
+                                estimate.var = "group2",
+                                local.correct = TRUE,
+                                verbose = TRUE)
 plot(TCGA_bs_sub.tstat)
 
 
