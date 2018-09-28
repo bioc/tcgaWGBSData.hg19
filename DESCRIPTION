@@ -1,7 +1,7 @@
 Package: tcgaWGBSData.hg19
 Type: Package
 Title: Data
-Version: 0.99.2
+Version: 0.99.3
 Author: Divy Kangeyan <divyswar01@g.harvard.edu>
 Maintainer: Divy Kangeyan <divyswar01@g.harvard.edu>
 Depends: R (>= 3.5.0),
