@@ -12,10 +12,10 @@ Imports:
 Suggests:
 Description: Data package for WGBS Data in TCGA.
              Data is stored as SummarizedExperiment Format. 
-             See vignette how to extract the data.
+             See vignette on how to extract the data and perform 
+             differential methylation analysis.
 biocViews: Genome, SequencingData, ExperimentData, Homo_sapiens_Data, 
            CancerData
 License: GPL-2
-LazyData: TRUE
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr

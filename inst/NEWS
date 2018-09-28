@@ -1,6 +1,5 @@
-CHANGES IN VERSION 0.99.1
+CHANGES IN VERSION 0.99.2
 --------------------------
 
 PKG FEATURES
-- This is c data package containing Whole Genome Bisulfite Sequencing (WGBS) 
-data from TCGA. 
+- This is a data package containing Whole Genome Bisulfite Sequencing (WGBS) data from TCGA. 
