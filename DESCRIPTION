@@ -1,7 +1,7 @@
 Package: tcgaWGBSData.hg19
 Type: Package
 Title: Data
-Version: 1.1.0
+Version: 1.1.1
 Author: Divy Kangeyan <divyswar01@g.harvard.edu>
 Maintainer: Divy Kangeyan <divyswar01@g.harvard.edu>
 Depends: R (>= 3.5.0),
@@ -16,6 +16,7 @@ Description: Data package for WGBS Data in TCGA.
              differential methylation analysis.
 biocViews: Genome, SequencingData, ExperimentData, Homo_sapiens_Data, 
            CancerData
+BugReports: https://github.com/aryeelab/tcgaWGBSData.hg19/issues
 License: GPL-2
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
