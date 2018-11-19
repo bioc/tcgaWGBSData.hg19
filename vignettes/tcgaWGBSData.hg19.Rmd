@@ -21,7 +21,12 @@ Data can be extracted using
 ```{r, warning=FALSE, message=FALSE, cache=TRUE, eval=FALSE}
 tcga_data <- eh[["EH1661"]]
 TCGA_bs <- eh[["EH1662"]]
-file.rename(from=tcga_data,to=paste0(dirname(tcga_data),'/assays.h5'))
+tcga_eh_directory <- dirname(tcga_data)
+assay_file <- tcga_data
+rds_file <- paste0(tcga_eh_directory, '/1662')
+file.rename(from=assay_file, to=paste0(tcga_eh_directory, '/assays.h5'))
+file.rename(from=rds_file, to=paste0(tcga_eh_directory, '/se.rds'))
+TCGA_bs <- HDF5Array::loadHDF5SummarizedExperiment(tcga_eh_directory)
 ```
 
 
@@ -51,7 +56,7 @@ Df <- data.frame('mean-methylation' = meanMethylation, 'type' = sampleType)
 g <- ggplot2::ggplot() 
 g <- g + ggplot2::geom_boxplot(data=Df,ggplot2::aes(x=type,y=mean.methylation))
 g <- g + ggplot2::xlab('sample type') + ggplot2::ylab('Methylation') 
-g <- g + ggplot2::theme(axis.text.x = element_text(angle = 0, hjust = 1))
+g <- g + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 0, hjust = 1))
 g
 
 ```
@@ -86,7 +91,7 @@ pData <- pData(TCGA_bs_sub.fit)
 pData$col <- rep(c("red", "blue"), each = 3)
 pData(TCGA_bs_sub.fit) <- pData
 
-plotRegion(TCGA_bs_sub.fit, dmrs[1,], extend = 5000, addRegions = dmrs)
+bsseq::plotRegion(TCGA_bs_sub.fit, dmrs[1,], extend = 5000, addRegions = dmrs)
 
 ```
 ```{r, warning=FALSE, message=FALSE}
