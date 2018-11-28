@@ -9,31 +9,46 @@ vignette: >
     %\VignetteEncoding{UTF-8}
 ---
 
-Differential Methylation Analysis with Whole Genome Bisulfite Sequencing 
-(WGBS) Data in TCGA
-```{r, warning=FALSE, message=FALSE, eval=FALSE}
+###Differential Methylation Analysis with Whole Genome Bisulfite Sequencing (WGBS) Data in TCGA
+```{r, warning=FALSE, message=FALSE, eval=FALSE, cache=TRUE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+library(BiocManager)
+BiocManager::install("tcgaWGBSData.hg19", version = "devel")
+```
+
+```{r, warning=FALSE, message=FALSE, eval=FALSE, cache=TRUE}
 library(ExperimentHub)
 eh = ExperimentHub()
 query(eh, "tcgaWGBSData.hg19")
 ```
 
-Data can be extracted using
-```{r, warning=FALSE, message=FALSE, cache=TRUE, eval=FALSE}
+Data can be extracted in the following way:
+```{r, warning=FALSE, message=FALSE, cache=TRUE, eval=FALSE, results=FALSE}
 tcga_data <- eh[["EH1661"]]
 TCGA_bs <- eh[["EH1662"]]
-file.rename(from=tcga_data,to=paste0(dirname(tcga_data),'/assays.h5'))
-```
 
+tcga_eh_directory <- dirname(tcga_data)
+assay_file <- tcga_data
+rds_file <- paste0(tcga_eh_directory, '/1662')
+
+file.rename(from=assay_file, to=paste0(tcga_eh_directory, '/assays.h5'))
+file.rename(from=rds_file, to=paste0(tcga_eh_directory, '/se.rds'))
+TCGA_bs <- HDF5Array::loadHDF5SummarizedExperiment(tcga_eh_directory)
+```
 
 Phenotypic data can be extracted by
 ```{r, warning=FALSE, message=FALSE, eval=FALSE}
 library(Biobase)
 phenoData <- Biobase::pData(TCGA_bs)
+head(phenoData)
 ```
 
 
 Methylation Comparison between normal and tumor sample
 ```{r, warning=FALSE, message=FALSE, eval=FALSE}
+library(ggplot2)
+
 cov_matrix <- bsseq::getCoverage(TCGA_bs)
 meth_matrix <- bsseq::getCoverage(TCGA_bs, type='M')
 meth_matrix <- meth_matrix/cov_matrix
@@ -56,39 +71,46 @@ g
 
 ```
 
+As expected overall methylation is lower in tumor samples compared to the normal samples.
 
-Differential methylation analysis of tumor samples
-```{r, warning=FALSE, message=FALSE, eval=FALSE}
-chr1Index <- seqnames(TCGA_bs) == 'chr22'
 
+## Differential methylation analysis of tumor samples
+In this analysis we are using functions from *bsseq* package to conduct the differntial methylation analysis.
+```{r, warning=FALSE, message=FALSE, eval=FALSE, fig.height=6, fig.width=5}
+# In this analysis we restrict the data to just chromosome 22
+chrIndex <- seqnames(TCGA_bs) == 'chr22'
+
+# Also we are only conducting the analysis for 3 normal and tumor pairs
 group1 <- c(11, 6, 23) # normal samples
 group2 <- c(20, 26, 25) # Tumor samples
 subSample <- c(group1, group2)
 
-TCGA_bs_sub <- updateObject(TCGA_bs[chr1Index,subSample])
+TCGA_bs_sub <- updateObject(TCGA_bs[chrIndex, subSample])
 TCGA_bs_sub.fit <- bsseq::BSmooth(TCGA_bs_sub, mc.cores = 2, verbose = TRUE)
 TCGA_bs_sub.tstat <- bsseq::BSmooth.tstat(TCGA_bs_sub.fit, 
-                                group1 = c(1,2,3),
-                                group2 = c(4,5,6), 
+                                group1 = c(1, 2, 3),
+                                group2 = c(4, 5, 6), 
                                 estimate.var = "group2",
                                 local.correct = TRUE,
                                 verbose = TRUE)
 plot(TCGA_bs_sub.tstat)
+```
 
 
+
+```{r, warning=FALSE, message=FALSE, eval=FALSE, fig.height=3.5, fig.width=7}
 dmrs0 <- bsseq::dmrFinder(TCGA_bs_sub.tstat, cutoff = c(-4.6, 4.6))
 dmrs <- subset(dmrs0, n >= 3 & abs(meanDiff) >= 0.1)
 nrow(dmrs)
 head(dmrs, n = 3)
 
-
 pData <- pData(TCGA_bs_sub.fit)
 pData$col <- rep(c("red", "blue"), each = 3)
 pData(TCGA_bs_sub.fit) <- pData
 
-plotRegion(TCGA_bs_sub.fit, dmrs[1,], extend = 5000, addRegions = dmrs)
-
+bsseq::plotRegion(TCGA_bs_sub.fit, dmrs[1,], extend = 5000, addRegions = dmrs)
 ```
+
 ```{r, warning=FALSE, message=FALSE}
 sessionInfo()
 ```
